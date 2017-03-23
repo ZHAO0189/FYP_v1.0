@@ -1,0 +1,138 @@
+{% load staticfiles %}
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <!-- <link rel="icon" href="../../favicon.ico"> -->
+
+    <title>Document Analysis - News Crawling</title>
+
+    {% include 'head_css.html'%}
+    <style>
+        {% block style %}
+        {% endblock %}
+    </style>
+  <script src="{% static "js/FileSaver.js"%}">
+      $("#btn-save").click(function () {
+      var username = $(this).val();
+          var text = {{ dict }};
+          var filename = {{ subject }} + " News";
+          var blob = new Blob([text], {type: "text/plain;charset=utf-8"});
+          saveAs(blob, filename +".json");
+        }
+      );
+  </script>
+  </head>
+
+  <body>
+
+    <nav class="navbar navbar-inverse navbar-fixed-top">
+      <div class="container-fluid">
+        <div class="navbar-header">
+          <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
+            <span class="sr-only">Toggle navigation</span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+          </button>
+          <a class="navbar-brand" href="{% url 'main' %}">Document Analysis</a>
+        </div>
+        <div id="navbar" class="navbar-collapse collapse">
+          <ul class="nav navbar-nav navbar-right">
+            <li><a href="#">Dashboard</a></li>
+            <li><a href="#">Settings</a></li>
+            <li><a href="#">Profile</a></li>
+            <li><a href="#">Help</a></li>
+          </ul>
+          <form class="navbar-form navbar-right">
+          </form>
+        </div>
+      </div>
+    </nav>
+
+    <div class="container-fluid">
+      <div class="row">
+        <div class="col-sm-3 col-md-2 sidebar">
+          <ul class="nav nav-sidebar">
+            <li><a href="{% url 'main' %}">Overview</a></li>
+          </ul>
+          <ul class="nav nav-sidebar">
+            <li class="active"><a href="">News Crawling<span class="sr-only">(current)</span></a></li>
+          </ul>
+          <ul class="nav nav-sidebar">
+            <li><a href="{% url 'classification' %}">Document Classification</a></li>
+          </ul>
+
+          <ul class="nav nav-sidebar">
+           <!-- <li><a href="">Document Summarization</a></li>-->
+          </ul>
+        </div>
+        <div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main">
+          <h1 class="page-header">News Crawling</h1>
+
+          <div class="row placeholders">
+              <div class="col-md-6">
+                  <p><img src='{% static "img/web crawling.png"%}' class='img-responsive' width="450" style="margin: auto"/></p>
+              </div>
+              <div class="col-md-6">
+                  <form action="" method="POST">
+                    <h3>Subject Name</h3>
+                    <input type="text" name="subject" required><br><br>
+                    <h3>Date Range</h3>
+                    <select name="date_range" required>
+                    <option value="-1d">Past Day</option>
+                    <option value="-1w">Past Week</option>
+                    <option value="-1m">Past Month</option>
+                    </select><br><br>
+
+                  <h3>Source</h3>
+                  <select name="source" required>
+                  <option value="Bloomberg">Bloomberg</option>
+                  <option value="Reuters">Reuters</option>
+                  <option value="Guardians">Guardians</option>
+                  </select>
+              <br><br><br>
+                    <button type="submit" class="btn btn-success">
+                    <span class="glyphicon glyphicon-cog" aria-hidden="true"></span> Search</button>
+                  </form>
+              </div>
+              </div>
+
+          <h2 class="sub-header">Results
+          <button id="btn-save" type="submit" class="btn btn-primary">
+              <span class="glyphicon glyphicon-download-alt" aria-hidden="true"></span> Download</button>
+              <button type="submit" class="btn btn-success" onclick="window.location.href={% url 'classification' %}">
+                    <span class="glyphicon glyphicon-cog" aria-hidden="true"></span> Analyze</button>
+          </h2>
+          <div class="table-responsive">
+            <table class="table table-striped">
+              <thead>
+                <tr>
+                  <th>Article</th>
+                </tr>
+              </thead>
+              <tbody>
+                {% if dict == "No results." %}
+                <tr><td><b><em>No results.</em></b><br><br></td></tr>
+                {% else %}{% for title, content in dict.items %}
+                <tr><td><b><em>Title: {{ title }}</em></b><br><br>{{ content }}</td></tr>
+                {% endfor %}
+                {% endif %}
+              </tbody>
+            </table>
+          </div>
+          <footer class="footer">
+            <div class="container">
+                <span class="text-muted">Copyright &copy; </span>
+            </div>
+          </footer>
+        </div>
+      </div>
+    </div>
+  </body>
+</html>

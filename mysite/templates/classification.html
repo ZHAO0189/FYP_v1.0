@@ -1,0 +1,128 @@
+{% load staticfiles %}
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
+    <meta name="description" content="">
+    <meta name="author" content="">
+
+
+    <title>Document Analysis - Classification</title>
+
+    {% include 'head_css.html'%}
+    <style>
+        {% block style %}
+        {% endblock %}
+    </style>
+  </head>
+
+  <body>
+
+    <nav class="navbar navbar-inverse navbar-fixed-top">
+      <div class="container-fluid">
+        <div class="navbar-header">
+          <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
+            <span class="sr-only">Toggle navigation</span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+          </button>
+          <a class="navbar-brand" href="{% url 'main' %}">Document Analysis</a>
+        </div>
+        <div id="navbar" class="navbar-collapse collapse">
+          <ul class="nav navbar-nav navbar-right">
+            <li><a href="#">Dashboard</a></li>
+            <li><a href="#">Settings</a></li>
+            <li><a href="#">Profile</a></li>
+            <li><a href="#">Help</a></li>
+          </ul>
+          <form class="navbar-form navbar-right">
+          </form>
+        </div>
+      </div>
+    </nav>
+
+    <div class="container-fluid">
+      <div class="row">
+        <div class="col-sm-3 col-md-2 sidebar">
+          <ul class="nav nav-sidebar">
+            <li><a href="{% url 'main' %}">Overview</a></li>
+          </ul>
+          <ul class="nav nav-sidebar">
+            <li><a href="{% url 'crawling' %}">News Crawling</a></li>
+          </ul>
+          <ul class="nav nav-sidebar">
+            <li class="active"><a href="">Document Classification<span class="sr-only">(current)</span></a></li>
+          </ul>
+          <ul class="nav nav-sidebar">
+            <!--<li><a href="">Document Summarization</a></li>-->
+          </ul>
+        </div>
+        <div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main">
+          <h1 class="page-header">Document Classification</h1>
+
+          <div class="row">
+              <div class="alert alert-info">
+                <strong>This page aims to classify a document such as news, articles into one of the three classes, Positive, Negative and Neutral. </strong>
+                  <br><span><b>Attention</b>: You can either use the documents obtained from <em>News Crawling</em> page or enter your own file.</span>
+              </div>
+              <div class="panel panel-info">
+                  <div class="panel-heading">Representation Learning</div>
+                  <div class="panel-body">The cutting-edge technology in Sentiment Analysis, Word Embeddings model, is utilized in this program.
+                      Words from the corpus are mapped to vectors of real numbers using W2V technique. </div>
+              </div>
+              <div class="panel panel-info">
+                  <div class="panel-heading">Classifier</div>
+                  <div class="panel-body">Random Forests is the classifier combined with Word Embeddings model. In my experiments, RF + WE has achieved the highest accuracy so it is implemented in this program.</div>
+              </div>
+          </div>
+          <div class="row" style="text-align: center">
+              <form action="" method="POST">
+              <div class="col-md-4">
+                  <h3>Subject:</h3>
+                  <input type="text" name="subject" required>
+              </div>
+
+                  <div class="col-md-4">
+                      <h3>File Path:</h3>
+                  <input type="text" name="file-path" style="width:373px" required>
+              </div>
+
+              <div class="col-md-4" style="margin-top: 40px">
+                <button type="submit" class="btn btn-success">
+                    <span class="glyphicon glyphicon-cog" aria-hidden="true"></span> Analyze</button>
+              </div>
+              </form>
+          </div>
+          <h2 class="sub-header">Results</h2>
+          <div class="table-responsive">
+            <table class="table table-striped">
+              <thead>
+                <tr>
+                  <th>Article</th>
+                </tr>
+              </thead>
+              <tbody>
+                {% if dict == "No results." %}
+                <tr><td><b><em>No results.</em></b><br><br></td></tr>
+                {% else %}{% for title, label in dict.items %}
+                <tr><td><b><em>Title: {{ title }}</em></b><br><br>Label: {{ label }}</td></tr>
+                {% endfor %}
+                {% endif %}
+              </tbody>
+            </table>
+          </div>
+          <footer class="footer">
+            <div class="container">
+                <span class="text-muted">Copyright &copy; </span>
+            </div>
+          </footer>
+           </div>
+        </div>
+       </div>
+
+  </body>
+</html>

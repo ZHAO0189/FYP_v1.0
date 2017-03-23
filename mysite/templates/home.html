@@ -1,0 +1,16 @@
+{% load staticfiles %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>testapp</title>
+    <link href = "{% static 'css/bootstrap.min.css' %}">
+</head>
+<body>
+<h1>{{ template_title }}</h1>
+<form method="post" action="">{% csrf_token %}
+    {{ form }}
+    <input type="submit" value="Sign Up">
+</form>
+</body>
+</html>
