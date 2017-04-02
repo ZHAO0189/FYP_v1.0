@@ -44,7 +44,7 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="classification.html" pinned="false" current-in-tab="true">
+      <file leaf-file-name="classification.html" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/templates/classification.html">
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="233">
@@ -53,6 +53,16 @@
                 <element signature="n#style#0;n#img#0;n#div#0;n#div#2;n#div#1;n#div#0;n#div#0;n#body#0;n#html#0;n#!!top" expanded="true" />
                 <element signature="n#style#0;n#table#0;n#div#1;n#div#2;n#div#1;n#div#0;n#div#0;n#body#0;n#html#0;n#!!top" expanded="true" />
               </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="settings.py" pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/mysite/settings.py">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="539">
+              <caret line="53" column="1" selection-start-line="53" selection-start-column="1" selection-end-line="53" selection-end-column="1" />
+              <folding />
             </state>
           </provider>
         </entry>
@@ -128,7 +138,6 @@
         <option value="$PROJECT_DIR$/testapp/LSA.py" />
         <option value="$PROJECT_DIR$/testapp/BOW.py" />
         <option value="$PROJECT_DIR$/testapp/Bloomberg.py" />
-        <option value="$PROJECT_DIR$/mysite/settings.py" />
         <option value="$PROJECT_DIR$/testapp/WordEmbeddings.py" />
         <option value="$PROJECT_DIR$/testapp/test.py" />
         <option value="$PROJECT_DIR$/testapp/SentenceExtraction.py" />
@@ -137,6 +146,7 @@
         <option value="$PROJECT_DIR$/templates/main.html" />
         <option value="$PROJECT_DIR$/testapp/views.py" />
         <option value="$PROJECT_DIR$/templates/classification.html" />
+        <option value="$PROJECT_DIR$/mysite/settings.py" />
       </list>
     </option>
   </component>
@@ -663,7 +673,7 @@
     <servers />
   </component>
   <component name="ToolWindowManager">
-    <frame x="110" y="23" width="1191" height="824" extended-state="1" />
+    <frame x="110" y="23" width="1191" height="824" extended-state="0" />
     <editor active="true" />
     <layout>
       <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.22280243" sideWeight="0.4945355" order="1" side_tool="false" content_ui="combo" />
@@ -991,14 +1001,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/mysite/settings.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="75">
-          <caret line="55" column="0" selection-start-line="55" selection-start-column="0" selection-end-line="55" selection-end-column="0" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/testapp/SentiWordNet.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="0">
@@ -1121,6 +1123,14 @@
             <element signature="n#style#0;n#img#0;n#div#0;n#div#2;n#div#1;n#div#0;n#div#0;n#body#0;n#html#0;n#!!top" expanded="true" />
             <element signature="n#style#0;n#table#0;n#div#1;n#div#2;n#div#1;n#div#0;n#div#0;n#body#0;n#html#0;n#!!top" expanded="true" />
           </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/mysite/settings.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="539">
+          <caret line="53" column="1" selection-start-line="53" selection-start-column="1" selection-end-line="53" selection-end-column="1" />
+          <folding />
         </state>
       </provider>
     </entry>
