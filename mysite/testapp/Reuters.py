@@ -64,15 +64,16 @@ class Reuters:
                 tag = soup.find('span', {"id": "article-text"})
                 list = tag.find_all("p")
 
-                dict["title"] = head.getText()
-                dict["url"] = com_link
-                print(com_link)
                 content = ''
 
                 for item in list:
                     content += item.getText() + "\n"
-
+                if len(content.split())<100:
+                    continue
                 dict["content"] = content
+                dict["title"] = head.getText()
+                dict["url"] = com_link
+                print(com_link)
                 counter = counter + 1
                 txt.append(dict.copy())
             except Exception as e:

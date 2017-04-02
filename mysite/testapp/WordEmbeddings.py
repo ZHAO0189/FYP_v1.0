@@ -3,6 +3,7 @@ import numpy as np
 import os
 import re
 import cPickle
+import matplotlib.pyplot as plt
 from io import open
 from sklearn.externals import joblib
 from sklearn.feature_extraction.text import CountVectorizer
@@ -349,6 +350,8 @@ def nn_we_training(news_vec, label, cv_index):
 
 def we_predictions(corpus):
     clf = joblib.load("/Users/zhaozinian/Desktop/trydjango18/mysite/WE_RF_350_15.pkl")
+    positive, negative, neutral = [0.0 for _ in range(3)]
+
 
     vectorizer = CountVectorizer(min_df=1, strip_accents='ascii')
     sparse_matrix = vectorizer.fit_transform(corpus)
@@ -362,7 +365,57 @@ def we_predictions(corpus):
     predictions = ["Positive" if x==1.0 else x for x in predictions]
     predictions = ["Negative" if x == -1.0 else x for x in predictions]
     predictions = ["Neutral" if x == 0.0 else x for x in predictions]
-    return predictions
+
+    confidence =  clf.predict_proba(news_vec)
+    for each in confidence:
+        negative += each[0]
+        neutral += each[1]
+        positive += each[2]
+
+    positive /= len(confidence)
+    negative /= len(confidence)
+    neutral /= len(confidence)
+    print confidence
+    print clf.classes_
+    print positive, negative, neutral
+    build_plot(predictions)
+    return predictions, positive, negative, neutral
+
+
+def build_plot(predictions):
+    idx_neg = [idx for idx in range(len(predictions)) if predictions[idx] == 'Negative']
+    neg = len(idx_neg)
+
+    idx_pos = [idx for idx in range(len(predictions)) if predictions[idx] == 'Positive']
+    pos = len(idx_pos)
+
+    idx_neu = [idx for idx in range(len(predictions)) if predictions[idx] == 'Neutral']
+    neu = len(idx_neu)
+
+    labels = ["Positive", "Negative", "Neutral"]
+    data = [pos, neg, neu]
+    colors = ['#F1A94E', '#E45641', '#5D4C46']
+
+    xlocations = np.arange(len(data))
+    width = 0.5
+
+    fig, ax = plt.subplots()
+    rects = ax.bar(xlocations, data, width, color=colors)
+    ax.set_ylabel("Number")
+    ax.set_xlabel("Categories")
+    ax.set_xticks(xlocations)
+    ax.set_xticklabels(labels)
+    ax.set_title('Classification Distribution')
+    lim = max(data)
+    ax.set_ylim([0, lim + 1])
+    for rect in rects:
+        height = rect.get_height()
+        ax.text(rect.get_x() + rect.get_width() / 2., 1.01 * height,
+                '%d' % int(height),
+                ha='center', va='bottom')
+
+    plt.savefig('/Users/zhaozinian/Desktop/trydjango18/mysite/static/our_static/img/foo.png')
+
 
 """
 corpus, label = read_documents(directory)

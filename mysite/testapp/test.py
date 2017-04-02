@@ -1,10 +1,43 @@
 from All import get_bloomberg_news, get_guardian_news, get_reuters_news
+import numpy as np
+import matplotlib.pyplot as plt
+import os
+import json
+from WordEmbeddings import clean_str, we_predictions
+
+with open('/Users/zhaozinian/Documents/UNIVERSITY/FYP/NEWS/Bloomberg-Donald Trump-2017-03-24--1d.json') as json_data:
+    data = json.load(json_data)
+    news = data['Donald Trump']
+    print news
+    corpus = []
+    for item in news:
+        article = clean_str(item['content'])
+        corpus.append(article)
+    we_predictions(corpus)
 
 
-news = get_bloomberg_news("google","-1w")
-print len(news)
-print type(news)
-
+#
+# labels = ["Positive", "Negative", "Neutral"]
+# data = [3,5,7]
+#
+# xlocations = np.arange(len(data))
+# width = 0.5
+#
+# fig, ax = plt.subplots()
+# rects = ax.bar(xlocations, data, width)
+# ax.set_ylabel("Number")
+# ax.set_xlabel("Categories")
+# ax.set_xticks(xlocations)
+# ax.set_xticklabels(labels)
+# ax.set_title('Classification Distribution')
+# max = max(data)
+# ax.set_ylim([0,max+1])
+# for rect in rects:
+#     height = rect.get_height()
+#     ax.text(rect.get_x() + rect.get_width()/2., 1.01*height,
+#             '%d' % int(height),
+#             ha='center', va='bottom')
+# plt.show()
 #request = urllib.request.Request("https://www.bloomberg.com/news/articles/2016-10-06/facebook-testing-vr-headset-that-doesn-t-need-pc-connection")
 #res = urllib.request.urlopen(request)
 #soup = BeautifulSoup(res, 'html.parser')

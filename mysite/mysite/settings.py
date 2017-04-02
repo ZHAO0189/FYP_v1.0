@@ -54,6 +54,7 @@ MIDDLEWARE_CLASSES = (
 SESSION_ENGINE = "django.contrib.sessions.backends.file"
 SESSION_FILE_PATH = "/Users/zhaozinian/Desktop/trydjango18/"
 
+
 ROOT_URLCONF = 'mysite.urls'
 
 TEMPLATES = [

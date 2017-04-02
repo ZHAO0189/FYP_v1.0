@@ -67,7 +67,7 @@
           <div class="row">
               <div class="alert alert-info">
                 <strong>This page aims to classify a document such as news, articles into one of the three classes, Positive, Negative and Neutral. </strong>
-                  <br><span><b>Attention</b>: You can either use the documents obtained from <em>News Crawling</em> page or enter your own file.</span>
+                  <br><br><span><b>Attention</b>: You can either use the documents obtained from <a href="{% url "crawling" %}"><em>News Crawling</em></a> page or enter your own file.</span>
               </div>
               <div class="panel panel-info">
                   <div class="panel-heading">Representation Learning</div>
@@ -98,6 +98,23 @@
               </form>
           </div>
           <h2 class="sub-header">Results</h2>
+          <div class="row">
+              <div class="col-md-6">
+                  {% if dict %}
+              <img class="img-responsive" src="{% static 'img/foo.png' %}" style="width: auto; height: auto">
+                  {% endif %}
+          </div>
+              <div class="col-md-6">
+                  {% if dict %}
+              <table class="table table-striped" style="margin: auto">
+                  <thead><tr><th>Average Probabiliy</th></tr></thead>
+                  <tr><td>Positive Probability: </td><td><em>{{ positive }}</em></td></tr>
+                  <tr><td>Negative Probability: </td><td><em>{{ negative }}</em></td></tr>
+                  <tr><td>Neutral Probability: </td><td><em>{{ neutral }}</em></td></tr>
+              </table>
+                  {% endif %}
+          </div>
+          </div>
           <div class="table-responsive">
             <table class="table table-striped">
               <thead>
@@ -109,7 +126,9 @@
                 {% if dict == "No results." %}
                 <tr><td><b><em>No results.</em></b><br><br></td></tr>
                 {% else %}{% for title, label in dict.items %}
-                <tr><td><b><em>Title: {{ title }}</em></b><br><br>Label: {{ label }}</td></tr>
+                <tr><td><b>Title: </b><b><em>{{ title }}</em></b><br><br>
+                    <b>Key Sentences:</b> {%  for header, sentence in sentences.items %}{% if header == title %}{{ sentence }}
+                        {% endif %}{% endfor %}<br><br><td><b>Label:</b></td><td><em> {{ label }}</em></td></tr>
                 {% endfor %}
                 {% endif %}
               </tbody>

@@ -4,6 +4,7 @@ from All import get_bloomberg_news, get_guardian_news, get_reuters_news, news_wr
 from django.views.decorators.csrf import csrf_exempt
 from bs4 import BeautifulSoup
 from WordEmbeddings import *
+from SentenceExtraction import *
 # Create your views here.
 
 
@@ -72,7 +73,7 @@ def crawling(request):
         address = news_write(output,subject,source,date)
 
         for item in news:
-            title = BeautifulSoup(item["title"]).text
+            title = BeautifulSoup(item['title']).text
             article_dict[title] = item["content"]
         if len(article_dict) == 0:
             context = {
@@ -84,7 +85,7 @@ def crawling(request):
             }
         request.session["address"] = address
         request.session["subject"] = subject
-
+        request.session.set_expiry(120)
     return render(request,'crawling.html',context)
 
 
@@ -93,7 +94,9 @@ def classification(request):
     context = {}
     news = []
     article_dict = {}
-    corpus = []
+    sentences_dict = {}
+    corpus_a = []
+    corpus_b = []
     titles = []
 
     if request.POST:
@@ -105,14 +108,17 @@ def classification(request):
         data= json.loads(data)
         news = data[subject]
         for item in news:
-            corpus.append(item["content"])
+            corpus_a.append(clean_str(item["content"]))
+            corpus_b.append(item["content"])
             title = BeautifulSoup(item["title"]).text
             titles.append(title)
-        predictions = we_predictions(corpus)
+        predictions, positive, negative, neutral = we_predictions(corpus_a)
+        sentences = sentence_extraction(corpus_b, predictions)
         i=0
         for title in titles:
             article_dict[title] = predictions[i]
-            i+=1
+            sentences_dict[title] = sentences[i]
+            i += 1
 
         if len(article_dict) == 0:
             context = {
@@ -122,22 +128,29 @@ def classification(request):
             context = {
                 "dict": article_dict,
                 "subject": subject,
+                "positive": positive,
+                "neutral": neutral,
+                "negative": negative,
+                "sentences": sentences_dict
             }
 
-    if request.session["address"] and request.session["subject"]:
+    if "address" in request.session and "subject" in request.session:
         data = open(request.session["address"]).read()
         data = json.loads(data)
         news = data[request.session["subject"]]
 
         for item in news:
-            corpus.append(item["content"])
+            corpus_a.append(clean_str(item["content"]))
+            corpus_b.append(item["content"])
             title = BeautifulSoup(item["title"]).text
             titles.append(title)
 
-        predictions = we_predictions(corpus)
+        predictions, positive, negative, neutral = we_predictions(corpus_a)
+        sentences = sentence_extraction(corpus_b,predictions)
         i = 0
         for title in titles:
             article_dict[title] = predictions[i]
+            sentences_dict[title] = sentences[i]
             i += 1
 
         if len(article_dict) == 0:
@@ -148,6 +161,11 @@ def classification(request):
             context = {
                 "dict": article_dict,
                 "subject": request.session["subject"],
+                "positive":positive,
+                "neutral":neutral,
+                "negative":negative,
+                "sentences":sentences_dict
             }
+
 
     return render(request,'classification.html',context)
